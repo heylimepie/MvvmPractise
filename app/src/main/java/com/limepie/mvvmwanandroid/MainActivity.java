@@ -1,7 +1,6 @@
 package com.limepie.mvvmwanandroid;
 
 import android.os.Bundle;
-import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +11,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.tabs.TabLayout;
-import com.limepie.mvvmwanandroid.home.HomeFragment;
+import com.limepie.mvvmandroid.article.fragment.ArticleFragment;
+import com.limepie.mvvmandroid.base.BaseFragment;
 import com.limepie.mvvmwanandroid.model.BannerVo;
 import com.limepie.mvvmwanandroid.util.GlideImageLoader;
 import com.limepie.mvvmwanandroid.viewmodel.BannerViewModel;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import static androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
+@Route(path = "/app/mainActivity")
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -38,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ARouter.getInstance().inject(this);
         viewPager = findViewById(R.id.vp);
         tabLayout = findViewById(R.id.tb);
         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
 
         bannerViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(BannerViewModel.class);
-        banner =  findViewById(R.id.banner);
+        banner = findViewById(R.id.banner);
         initBanner();
         setData();
     }
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<BannerVo> bannerVos) {
                 ArrayList<String> title = new ArrayList<>(bannerVos.size());
                 ArrayList<String> imgPath = new ArrayList<>(bannerVos.size());
-                for(BannerVo banner:bannerVos) {
+                for (BannerVo banner : bannerVos) {
                     title.add(banner.getTitle());
                     imgPath.add(banner.getImagePath());
                 }
@@ -70,8 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setData() {
         List<BaseFragment> data = new ArrayList<>();
-        data.add(HomeFragment.newInstance());
-        data.add(HomeFragment.newInstance());
+        ArticleFragment articleFragment1 = (ArticleFragment) ARouter.getInstance().build("/article/articlefragment").navigation();
+        ArticleFragment articleFragment2 = (ArticleFragment) ARouter.getInstance().build("/article/articlefragment").navigation();
+        data.add(articleFragment1);
+        data.add(articleFragment2);
+//        data.add(HomeFragment.newInstance());
+//        data.add(HomeFragment.newInstance());
         adapter = new CustomAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, data);
         viewPager.setAdapter(adapter);
     }

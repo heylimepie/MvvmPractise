@@ -5,11 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.limepie.mvvmwanandroid.BaseFragment;
+import com.limepie.mvvmandroid.base.BaseFragment;
 import com.limepie.mvvmwanandroid.R;
 import com.limepie.mvvmwanandroid.model.Article;
 import com.limepie.mvvmwanandroid.viewmodel.ArticleViewModel;
@@ -28,7 +26,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment implements OnRefreshListener,OnLoadMoreListener {

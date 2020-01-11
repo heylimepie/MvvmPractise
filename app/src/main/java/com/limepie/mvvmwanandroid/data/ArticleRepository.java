@@ -2,13 +2,12 @@ package com.limepie.mvvmwanandroid.data;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.limepie.mvvmandroid.net.http.HttpManager;
 import com.limepie.mvvmwanandroid.data.local.LocalRepository;
 import com.limepie.mvvmwanandroid.data.remote.RemoteRepository;
 import com.limepie.mvvmwanandroid.http.ApiService;
-import com.limepie.mvvmwanandroid.http.HttpManager;
 import com.limepie.mvvmwanandroid.model.Article;
 import com.limepie.mvvmwanandroid.model.ArticleList;
-import com.limepie.mvvmwanandroid.model.Chapter;
 import com.limepie.mvvmwanandroid.model.Response;
 import com.limepie.mvvmwanandroid.util.HttpObserver;
 import com.limepie.mvvmwanandroid.util.RxUtils;
@@ -28,7 +27,7 @@ public class ArticleRepository  implements LocalRepository<MutableLiveData<List<
     @Override
     public MutableLiveData<List<Article>> getRemoteData() {
 
-        HttpManager.getInstance().getRequest(ApiService.class)
+        HttpManager.getInstance().getDefaultRequest(ApiService.class)
                 .getArticlesByPage(page)
                 .compose(RxUtils.<Response<ArticleList>>applySchedulers())
                 .subscribe(new HttpObserver<ArticleList>() {
@@ -48,7 +47,7 @@ public class ArticleRepository  implements LocalRepository<MutableLiveData<List<
 
     public void loadMore() {
         page ++ ;
-        HttpManager.getInstance().getRequest(ApiService.class)
+        HttpManager.getInstance().getDefaultRequest(ApiService.class)
                 .getArticlesByPage(page)
                 .compose(RxUtils.<Response<ArticleList>>applySchedulers())
                 .subscribe(new HttpObserver<ArticleList>() {

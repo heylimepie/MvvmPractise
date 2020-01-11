@@ -1,0 +1,71 @@
+if (isModule.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 26
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        if(!isModule.toBoolean()) {
+            applicationId "com.limepie.mvvmwanandroid.article"
+        }
+
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+
+
+        sourceSets {
+            main {
+                if (isModule.toBoolean()) {
+                    manifest.srcFile 'src/main/buildModule/AndroidManifest.xml'
+                    java {
+                        exclude 'com/app/**'
+                    }
+                    resources {
+                        exclude '**/test_activity_article.xml'
+                    }
+                } else {
+                    manifest.srcFile 'src/main/buildApp/AndroidManifest.xml'
+
+                }
+            }
+        }
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':base')
+    implementation project(':net')
+
+    implementation 'com.alibaba:arouter-api:1.4.1'
+
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+}

@@ -1,12 +1,11 @@
 package com.limepie.mvvmwanandroid.data;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.limepie.mvvmandroid.net.http.HttpManager;
 import com.limepie.mvvmwanandroid.data.local.LocalRepository;
 import com.limepie.mvvmwanandroid.data.remote.RemoteRepository;
 import com.limepie.mvvmwanandroid.http.ApiService;
-import com.limepie.mvvmwanandroid.http.HttpManager;
 import com.limepie.mvvmwanandroid.model.Chapter;
 import com.limepie.mvvmwanandroid.model.Response;
 import com.limepie.mvvmwanandroid.util.HttpObserver;
@@ -26,7 +25,7 @@ public class ChapterRepository implements LocalRepository<MutableLiveData<List<C
 
     @Override
     public MutableLiveData<List<Chapter>> getRemoteData() {
-        HttpManager.getInstance().getRequest(ApiService.class)
+        HttpManager.getInstance().getDefaultRequest(ApiService.class)
                 .getChapterInfo()
                 .compose(RxUtils.<Response<List<Chapter>>>applySchedulers())
                 .subscribe(new HttpObserver<List<Chapter>>() {

@@ -1,12 +1,10 @@
-package com.limepie.mvvmwanandroid;
+package com.limepie.mvvmandroid.base;
 
 import android.util.ArrayMap;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.limepie.mvvmwanandroid.viewmodel.ChapterViewModel;
 
 public class BaseFragment extends Fragment {
     ArrayMap<Class<?>, Object> viewModelArr = new ArrayMap<>();
