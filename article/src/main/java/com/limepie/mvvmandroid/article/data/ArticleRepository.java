@@ -8,9 +8,9 @@ import com.limepie.mvvmandroid.article.model.ArticleList;
 import com.limepie.mvvmandroid.base.data.Response;
 import com.limepie.mvvmandroid.base.data.local.LocalRepository;
 import com.limepie.mvvmandroid.base.data.remote.RemoteRepository;
+import com.limepie.mvvmandroid.base.util.HttpObserver;
+import com.limepie.mvvmandroid.base.util.RxUtils;
 import com.limepie.mvvmandroid.net.http.HttpManager;
-import com.limepie.mvvmandroid.net.util.HttpObserver;
-import com.limepie.mvvmandroid.net.util.RxUtils;
 
 import java.util.List;
 

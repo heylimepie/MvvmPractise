@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        if(!isModule.toBoolean()) {
+        if (!isModule.toBoolean()) {
             applicationId "com.limepie.mvvmwanandroid.article"
         }
 
@@ -34,11 +34,16 @@ android {
                     java {
                         exclude 'com/app/**'
                     }
-                    resources {
-                        exclude '**/test_activity_article.xml'
-                    }
+//                    res.srcDirs = [
+//                            'src/main/res'
+//                    ]
                 } else {
                     manifest.srcFile 'src/main/buildApp/AndroidManifest.xml'
+                    res.srcDirs = [
+                            'src/main/res/layout/app',
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
 
                 }
             }
@@ -60,7 +65,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':base')
-    implementation project(':net')
+//    implementation project(':net')
 
     implementation 'com.alibaba:arouter-api:1.4.1'
 

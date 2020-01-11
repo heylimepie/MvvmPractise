@@ -82,7 +82,6 @@ public class ArticleFragment extends BaseFragment implements OnRefreshListener,O
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         articleViewModel.loadMore();
-        Log.i("limepie","loadmore ...");
     }
 
     @Override
