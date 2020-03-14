@@ -43,4 +43,7 @@ dependencies {
 
     // optional - RxJava support for Room
     api "androidx.room:room-rxjava2:2.2.2"
+
+    api "androidx.cardview:cardview:1.0.0"
+
 }

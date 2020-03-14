@@ -1,2 +1,4 @@
 include ':app', ':net', ':article', ':base'
 rootProject.name='MvvmWanAndroid'
+include ':wechat'
+include ':project'

@@ -38,6 +38,8 @@ dependencies {
     implementation project(":base")
     if(isModule.toBoolean()) {
         implementation project(":article")
+        implementation project(":wechat")
+        implementation project(":project")
     }
 
 

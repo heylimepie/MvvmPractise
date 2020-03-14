@@ -16,6 +16,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.tabs.TabLayout;
 import com.limepie.mvvmandroid.article.fragment.ArticleFragment;
 import com.limepie.mvvmandroid.base.BaseFragment;
+import com.limepie.mvvmandroid.project.fragment.ProjectFragment;
+import com.limepie.mvvmandroid.wechat.fragment.WeChatFragment;
 import com.limepie.mvvmwanandroid.model.BannerVo;
 import com.limepie.mvvmwanandroid.util.GlideImageLoader;
 import com.limepie.mvvmwanandroid.viewmodel.BannerViewModel;
@@ -44,13 +46,20 @@ public class MainActivity extends AppCompatActivity {
         ARouter.getInstance().inject(this);
         viewPager = findViewById(R.id.vp);
         tabLayout = findViewById(R.id.tb);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-
+        initTabLayout();
         bannerViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(BannerViewModel.class);
         banner = findViewById(R.id.banner);
         initBanner();
         setData();
+    }
+
+    void initTabLayout() {
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.home).setIcon(R.drawable.ic_home_black_24dp));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.wechat).setIcon(R.drawable.ic_wechat));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.project).setIcon(R.drawable.ic_project));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.navigation).setIcon(R.drawable.ic_navigation));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.knowledge_tree).setIcon(R.drawable.ic_dashboard_black_24dp));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
     }
 
     private void initBanner() {
@@ -74,14 +83,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setData() {
         List<BaseFragment> data = new ArrayList<>();
-        ArticleFragment articleFragment1 = (ArticleFragment) ARouter.getInstance().build("/article/articlefragment").navigation();
-        ArticleFragment articleFragment2 = (ArticleFragment) ARouter.getInstance().build("/article/articlefragment").navigation();
-        data.add(articleFragment1);
-        data.add(articleFragment2);
-//        data.add(HomeFragment.newInstance());
-//        data.add(HomeFragment.newInstance());
+        ArticleFragment articleFragment = (ArticleFragment) ARouter.getInstance().build("/article/articlefragment").navigation();
+        WeChatFragment weChatFragment = (WeChatFragment) ARouter.getInstance().build("/wechat/wechatfragment").navigation();
+        ProjectFragment projectFragment =(ProjectFragment) ARouter.getInstance().build("/project/projectfragment").navigation();
+        data.add(articleFragment);
+        data.add(weChatFragment);
+        data.add(projectFragment);
         adapter = new CustomAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, data);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     class CustomAdapter extends FragmentPagerAdapter {

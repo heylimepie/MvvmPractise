@@ -67,4 +67,5 @@ public class ArticleRepository  implements LocalRepository<MutableLiveData<List<
     public boolean cacheValidate() {
         return false;
     }
+
 }

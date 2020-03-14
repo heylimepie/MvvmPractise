@@ -25,13 +25,18 @@
                    android:id="@+id/banner"
                    android:layout_width="match_parent"
                    android:layout_height="200dp"
-                   android:padding="10dp"/>
+                   />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tb"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:tabTextColor="@color/textColorSecondary"
+                app:tabSelectedTextColor="@color/textColorPrimary"
+                android:background="#ffffff"
+                />
 
         </com.google.android.material.appbar.AppBarLayout>
 
