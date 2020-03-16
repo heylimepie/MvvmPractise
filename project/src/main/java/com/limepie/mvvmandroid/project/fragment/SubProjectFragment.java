@@ -15,12 +15,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.limepie.mvvmandroid.base.BaseFragment;
 import com.limepie.mvvmandroid.project.R;
 import com.limepie.mvvmandroid.project.model.Article;
+import com.limepie.mvvmandroid.project.util.ImageLoader;
 import com.limepie.mvvmandroid.project.viewmodel.SubArticleViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -75,6 +78,15 @@ public class SubProjectFragment extends BaseFragment implements OnRefreshListene
         subArticleViewModel = new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(SubArticleViewModel.class);
         subArticleViewModel.setId(id);
         articleAdapter = new ArticleAdapter(subArticleViewModel.getArticles().getValue());
+        articleAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ARouter.getInstance().build("/webengine/webactivity")
+                        .withString("title",((Article)adapter.getData().get(position)).getTitle())
+                        .withString("url",((Article)adapter.getData().get(position)).getLink())
+                        .navigation();
+            }
+        });
         recyclerView.setAdapter(articleAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         subArticleViewModel.getArticles().observe(getActivity(), new Observer<List<Article>>() {
@@ -116,7 +128,7 @@ public class SubProjectFragment extends BaseFragment implements OnRefreshListene
             baseViewHolder.setText(R.id.tv_chapter,article.getChapterName()+"/"+article.getSuperChapterName());
             if(!TextUtils.isEmpty(article.getEnvelopePic())) {
                 baseViewHolder.setGone(R.id.thumbnail,false);
-                Glide.with(SubProjectFragment.this.getContext().getApplicationContext()).load(article.getEnvelopePic()).into((ImageView) baseViewHolder.getView(R.id.thumbnail));
+                ImageLoader.load(SubProjectFragment.this.getContext().getApplicationContext(),article.getEnvelopePic(),(ImageView) baseViewHolder.getView(R.id.thumbnail));
             } else {
                 baseViewHolder.setGone(R.id.thumbnail,true);
             }

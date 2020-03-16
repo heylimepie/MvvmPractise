@@ -15,8 +15,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.limepie.mvvmandroid.base.BaseFragment;
 import com.limepie.mvvmandroid.wechat.R;
@@ -77,6 +79,15 @@ public class SubArticleFragment extends BaseFragment implements OnRefreshListene
         subArticleViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(SubArticleViewModel.class);
         subArticleViewModel.setId(id);
         articleAdapter = new ArticleAdapter(subArticleViewModel.getArticles().getValue());
+        articleAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ARouter.getInstance().build("/webengine/webactivity")
+                        .withString("title",((Article)adapter.getData().get(position)).getTitle())
+                        .withString("url",((Article)adapter.getData().get(position)).getLink())
+                        .navigation();
+            }
+        });
         recyclerView.setAdapter(articleAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         subArticleViewModel.getArticles().observe(getActivity(), new Observer<List<Article>>() {

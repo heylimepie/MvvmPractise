@@ -23,6 +23,7 @@ import com.limepie.mvvmwanandroid.util.GlideImageLoader;
 import com.limepie.mvvmwanandroid.viewmodel.BannerViewModel;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText(R.string.home).setIcon(R.drawable.ic_home_black_24dp));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.wechat).setIcon(R.drawable.ic_wechat));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.project).setIcon(R.drawable.ic_project));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.navigation).setIcon(R.drawable.ic_navigation));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.knowledge_tree).setIcon(R.drawable.ic_dashboard_black_24dp));
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.navigation).setIcon(R.drawable.ic_navigation));
+//        tabLayout.addTab(tabLayout.newTab().setText(R.string.knowledge_tree).setIcon(R.drawable.ic_dashboard_black_24dp));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
     }
 
@@ -77,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
                 banner.setImages(imgPath);
                 banner.setBannerTitles(title);
                 banner.start();
+            }
+        });
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                ARouter.getInstance().build("/webengine/webactivity")
+                        .withString("title",bannerViewModel.getBanners().getValue().get(position).getTitle())
+                        .withString("url",bannerViewModel.getBanners().getValue().get(position).getUrl())
+                        .navigation();
             }
         });
     }

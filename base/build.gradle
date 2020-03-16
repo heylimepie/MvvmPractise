@@ -46,4 +46,6 @@ dependencies {
 
     api "androidx.cardview:cardview:1.0.0"
 
+    api project (':webengine')
+
 }

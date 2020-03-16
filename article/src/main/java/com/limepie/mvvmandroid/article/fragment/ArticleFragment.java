@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -17,8 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.limepie.mvvmandroid.article.R;
 import com.limepie.mvvmandroid.article.model.Article;
@@ -66,6 +69,17 @@ public class ArticleFragment extends BaseFragment implements OnRefreshListener, 
     private void initData() {
         articleViewModel = new ViewModelProvider(getActivity(), new ViewModelProvider.NewInstanceFactory()).get(ArticleViewModel.class);
         articleAdapter = new ArticleAdapter(articleViewModel.getArticles().getValue());
+        articleAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                ARouter.getInstance().build("/webengine/webactivity")
+                        .withString("title",((Article)adapter.getData().get(position)).getTitle())
+                        .withString("url",((Article)adapter.getData().get(position)).getLink())
+                        .navigation();
+
+            }
+        });
         recyclerView.setAdapter(articleAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         articleViewModel.getArticles().observe(getActivity(), new Observer<List<Article>>() {
@@ -98,11 +112,12 @@ public class ArticleFragment extends BaseFragment implements OnRefreshListener, 
     }
 
 
-    class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
+    class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder>  {
 
         public ArticleAdapter(List<Article> data) {
             super(R.layout.item_article_card, data);
         }
+
 
         @Override
         protected void convert(@NotNull BaseViewHolder baseViewHolder, @org.jetbrains.annotations.Nullable Article article) {
@@ -119,6 +134,7 @@ public class ArticleFragment extends BaseFragment implements OnRefreshListener, 
             }
             baseViewHolder.setText(R.id.tv_title, HtmlCompat.fromHtml(article.getTitle(), FROM_HTML_MODE_LEGACY).toString());
         }
+
     }
 
 }
