@@ -55,7 +55,9 @@ class WebViewPool {
         webView.setWebViewClient(null);
         webView.setTag(null);
         webView.clearHistory();
-        webView.destroy();
+        webView.clearCache(true);
+        webView.removeAllViewsInLayout();
+//        webView.destroy();
         queue.offer(webView);
     }
 

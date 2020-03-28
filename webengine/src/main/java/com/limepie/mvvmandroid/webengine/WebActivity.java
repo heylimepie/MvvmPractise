@@ -79,6 +79,7 @@ public class WebActivity extends ComponentActivity {
             Log.i("yjw", "cost time " + pageFinishRecord +
                     " - " + pageStartRecord + " = " + (pageFinishRecord - pageStartRecord));
             Log.i("yjw","webview show cost time " + (pageFinishRecord - resumeTimeRecord));
+//            view.clearHistory();
             super.onPageFinished(view, url);
         }
     };
@@ -89,7 +90,8 @@ public class WebActivity extends ComponentActivity {
 
     @Override
     protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
+//        mAgentWeb.getWebLifeCycle().onPause();
+        agentWebView.onPause();
         super.onPause();
 
     }
@@ -97,7 +99,8 @@ public class WebActivity extends ComponentActivity {
     @Override
     protected void onResume() {
         resumeTimeRecord = System.currentTimeMillis();
-        mAgentWeb.getWebLifeCycle().onResume();
+        agentWebView.onResume();
+//        mAgentWeb.getWebLifeCycle().onResume();
         super.onResume();
     }
 
