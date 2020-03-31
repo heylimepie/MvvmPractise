@@ -41,7 +41,7 @@ class WebViewPool {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             return;
         }
-        webView.loadUrl("about:blank");
+
         webView.stopLoading();
         if (webView.getHandler() != null) {
             webView.getHandler().removeCallbacksAndMessages(null);
@@ -54,10 +54,11 @@ class WebViewPool {
         webView.setWebChromeClient(null);
         webView.setWebViewClient(null);
         webView.setTag(null);
+        webView.clearFormData();
         webView.clearHistory();
         webView.clearCache(true);
         webView.removeAllViewsInLayout();
-//        webView.destroy();
+        webView.loadUrl("about:blank");
         queue.offer(webView);
     }
 
